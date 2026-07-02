@@ -1,4 +1,4 @@
-const CACHE = "nbs-shell-v1";
+const CACHE = "nbs-shell-v2";
 const SHELL_URLS = ["/", "/manifest.json", "/icon-192.png", "/icon-512.png", "/icon-512-maskable.png"];
 
 self.addEventListener("install", (event) => {
@@ -33,12 +33,16 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Cache-first for the app shell assets (manifest, icons) - they rarely change.
+  // Stale-while-revalidate for the app shell assets (manifest, icons): serve the
+  // cached copy instantly, but always refresh the cache in the background so
+  // future edits (new icon, manifest change) show up without a version bump.
   event.respondWith(
-    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
-      const copy = res.clone();
-      caches.open(CACHE).then((cache) => cache.put(req, copy));
-      return res;
-    }))
+    caches.match(req).then((cached) => {
+      const network = fetch(req).then((res) => {
+        caches.open(CACHE).then((cache) => cache.put(req, res.clone()));
+        return res;
+      }).catch(() => cached);
+      return cached || network;
+    })
   );
 });
