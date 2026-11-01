@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="שאלות ותשובות אנונימיות לנערים – ישיבת אמית עמיחי.">
 <meta name="twitter:image" content="https://nechnasin-besheela.josh-oder7.workers.dev/icon-512.png">
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#141b30">
+<meta name="theme-color" content="#0f2a63">
 <link rel="icon" href="icon-192.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23141b30'/%3E%3Ctext x='32' y='47' text-anchor='middle' font-family='Georgia,serif' font-weight='900' font-size='44' fill='%23e3c47e'%3E%3F%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -29,8 +29,62 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Secular+One&display=swap">
 <link rel="stylesheet" href="styles.css">
+<style>
+  /* Opening screen – shown while the Q&A archive loads */
+  #splash {
+    position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: hidden;
+    background:
+      radial-gradient(circle at 80% 12%, rgba(92, 181, 49, .32), transparent 36%),
+      radial-gradient(circle at 12% 88%, rgba(122, 63, 166, .42), transparent 40%),
+      radial-gradient(circle at 50% 42%, #1e56b0 0%, #0f2a63 68%);
+    color: #fff; font-family: 'Rubik', 'Segoe UI', Arial, sans-serif; text-align: center;
+    transition: opacity .55s ease, visibility .55s;
+  }
+  #splash.hide { opacity: 0; visibility: hidden; }
+  #splash::before {
+    content: ""; position: absolute; inset: 0; opacity: .1;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M36 6 L62 51 L10 51 Z'/%3E%3Cpath d='M36 66 L10 21 L62 21 Z'/%3E%3Ccircle cx='36' cy='36' r='30'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 72px 72px;
+    -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 0, transparent 70%); mask-image: radial-gradient(circle at 50% 42%, #000 0, transparent 70%);
+  }
+  .sp-inner { position: relative; display: grid; justify-items: center; gap: 18px; padding: 24px; }
+  .sp-logo { position: relative; width: 190px; height: 190px; display: grid; place-items: center; animation: sp-pop .7s cubic-bezier(.2, .9, .3, 1.3) both; }
+  .sp-logo img { width: 150px; height: 150px; border-radius: 50%; background: #fff; object-fit: contain; padding: 10px; border: 4px solid #fff; box-shadow: 0 18px 50px -14px rgba(0, 0, 0, .65), 0 0 0 8px rgba(255, 255, 255, .1); }
+  .sp-ring { position: absolute; inset: 0; animation: sp-spin 3.2s linear infinite; }
+  .sp-ring.r2 { inset: -14px; animation-duration: 5s; animation-direction: reverse; }
+  .sp-title { font-family: 'Secular One', 'Rubik', 'Segoe UI', Arial, sans-serif; font-size: clamp(2.3rem, 9vw, 3.4rem); line-height: 1.1; animation: sp-up .6s .15s ease both; }
+  .sp-title em { font-style: normal; color: #b3f08a; }
+  .sp-sub { color: #a8e8ff; font-weight: 600; letter-spacing: .06em; animation: sp-up .6s .25s ease both; }
+  .sp-bar { width: 160px; height: 5px; border-radius: 9px; background: rgba(255, 255, 255, .15); overflow: hidden; margin-top: 8px; animation: sp-up .6s .35s ease both; }
+  .sp-bar span { display: block; width: 40%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #66d4ff, #a6ec7e, #c39bf0); animation: sp-load 1.2s ease-in-out infinite; }
+  .sp-amit { position: absolute; inset-block-end: max(32px, env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, .8); font-size: .9rem; animation: sp-up .6s .45s ease both; }
+  .sp-amit img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .7); background: #141b30; object-fit: contain; clip-path: circle(48%); }
+  @keyframes sp-spin { to { transform: rotate(360deg); } }
+  @keyframes sp-pop { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
+  @keyframes sp-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @keyframes sp-load { 0% { transform: translateX(160%); } 100% { transform: translateX(-260%); } }
+  @media (prefers-reduced-motion: reduce) { #splash *, #splash { animation: none !important; transition: none !important; } }
+  @media print { #splash { display: none; } }
+</style>
 </head>
 <body>
+<div id="splash" aria-hidden="true">
+  <div class="sp-inner">
+    <div class="sp-logo">
+      <svg class="sp-ring" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="94" fill="none" stroke="#66d4ff" stroke-width="5" stroke-linecap="round" stroke-dasharray="380 210"/></svg>
+      <svg class="sp-ring r2" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="96" fill="none" stroke="#a6ec7e" stroke-width="2" stroke-linecap="round" stroke-dasharray="90 160 40 314"/></svg>
+      <img src="logo-torat-chaim.jpg" alt="">
+    </div>
+    <div class="sp-title">נכנסים <em>בשאלה</em></div>
+    <div class="sp-sub">שאלות ותשובות לנערים</div>
+    <div class="sp-bar"><span></span></div>
+  </div>
+  <div class="sp-amit"><img src="logo-amit.png" alt="">ישיבת אמית עמיחי</div>
+</div>
+<script>
+  // Safety net: never leave the opening screen up if the app fails to start
+  window.__splashT0 = Date.now();
+  setTimeout(function () { var s = document.getElementById("splash"); if (s) s.classList.add("hide"); }, 12000);
+</script>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
 

@@ -595,6 +595,16 @@
   observeReveal(document);
   if (!io) countUp($("stats"));
 
+  // Fade out the opening screen (kept up briefly so it doesn't just flash)
+  var splash = $("splash");
+  if (splash) {
+    var wait = Math.max(0, 700 - (Date.now() - (window.__splashT0 || 0)));
+    setTimeout(function () {
+      splash.classList.add("hide");
+      setTimeout(function () { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 700);
+    }, reduceMotion ? 0 : wait);
+  }
+
   if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
     window.addEventListener("load", function () { navigator.serviceWorker.register("/sw.js"); });
   }
