@@ -598,7 +598,7 @@
   // Fade out the opening screen (kept up briefly so it doesn't just flash)
   var splash = $("splash");
   if (splash) {
-    var wait = Math.max(0, 700 - (Date.now() - (window.__splashT0 || 0)));
+    var wait = Math.max(0, 1700 - (Date.now() - (window.__splashT0 || 0)));
     setTimeout(function () {
       splash.classList.add("hide");
       setTimeout(function () { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 700);
