@@ -1,5 +1,5 @@
-const CACHE = "nbs-shell-v3";
-const SHELL_URLS = ["/", "/styles.css", "/app.js", "/data.js", "/manifest.json", "/icon-192.png", "/icon-512.png", "/icon-512-maskable.png"];
+const CACHE = "nbs-shell-v4";
+const SHELL_URLS = ["/", "/styles.css", "/app.js", "/data.js", "/logo-torat-chaim.jpg", "/logo-amit.png", "/manifest.json", "/icon-192.png", "/icon-512.png", "/icon-512-maskable.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
