@@ -29,6 +29,12 @@
     "מלחמה ואמונה לאומית": { icon: "🎖️", h: 200 }
   };
   function catMeta(c) { return CAT_META[c] || { icon: "❔", h: 40 }; }
+  // Display names: in the data the Name of God appears as a bare "ה"; show it as ה'
+  var CAT_LABEL = {
+    "אמונה ושאלות על ה": "אמונה ושאלות על ה'",
+    "תשובה רוחניות ועבודת ה אישית": "תשובה, רוחניות ועבודת ה' אישית"
+  };
+  function catLabel(c) { return escHtml(CAT_LABEL[c] || c); }
 
   // שמות המשיבים מופיעים בנתונים בכמה כתיבים; לצורך סינון בלבד מאחדים אותם.
   // בכרטיס עצמו מוצג תמיד השם בדיוק כפי שנכתב.
@@ -214,7 +220,7 @@
         '<span class="q-badge" aria-hidden="true">?</span>' +
         '<span><span class="q-text">' + richText(item.q, tokens) + "</span>" +
           '<span class="q-sub">' +
-            (item.c ? '<span class="tag"><span aria-hidden="true">' + meta.icon + "</span>" + escHtml(item.c) + "</span>" : "") +
+            (item.c ? '<span class="tag"><span aria-hidden="true">' + meta.icon + "</span>" + catLabel(item.c) + "</span>" : "") +
             (rabbi ? "<span>✍ " + rabbi + "</span>" : "") +
           "</span></span>" +
         '<span class="q-chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>' +
@@ -304,7 +310,7 @@
     html += CATS.map(function (c) {
       var m = catMeta(c);
       return '<button class="chip topic' + (state.cat === c ? " active" : "") + '" style="--h:' + m.h + '" data-cat="' + escHtml(c) + '">' +
-        m.icon + " " + escHtml(c) + '<span class="n">' + nf(catCount[c] || 0) + "</span></button>";
+        m.icon + " " + catLabel(c) + '<span class="n">' + nf(catCount[c] || 0) + "</span></button>";
     }).join("");
     $("catFilters").innerHTML = html;
   }
@@ -389,7 +395,7 @@
       stat(DATA.length, "שאלות ותשובות באתר") +
       stat(answerers, "משיבים") +
       stat(topics, "נושאים") +
-      '<div class="stat"><div class="stat-num small">' + catMeta(top).icon + " " + escHtml(top) + '</div><div class="stat-label">הנושא הנפוץ ביותר</div></div>';
+      '<div class="stat"><div class="stat-num small">' + catMeta(top).icon + " " + catLabel(top) + '</div><div class="stat-label">הנושא הנפוץ ביותר</div></div>';
     $("qaIntro").textContent = nf(DATA.length) + " שאלות שנשאלו בצורה אנונימית ונענו על ידי הרמי\"ם. חפשו, סננו לפי נושא או משיב, ושתפו.";
   }
   function stat(n, label) {
@@ -413,7 +419,7 @@
       var m = catMeta(c), n = catCount[c] || 0;
       return '<button class="topic-tile reveal" style="--h:' + m.h + '" data-topic="' + escHtml(c) + '">' +
         '<span class="topic-icon" aria-hidden="true">' + m.icon + "</span>" +
-        '<span><span class="topic-name">' + escHtml(c) + '</span><span class="topic-bar" aria-hidden="true"><span style="width:' + Math.max(4, Math.round(n / max * 100)) + '%"></span></span></span>' +
+        '<span><span class="topic-name">' + catLabel(c) + '</span><span class="topic-bar" aria-hidden="true"><span style="width:' + Math.max(4, Math.round(n / max * 100)) + '%"></span></span></span>' +
         '<span class="topic-count">' + nf(n) + "</span></button>";
     }).join("");
   }
@@ -428,7 +434,7 @@
     featuredIdx = item._i;
     var m = catMeta(item.c), body = $("featuredBody");
     body.innerHTML =
-      '<div class="featured-top"><span class="tag" style="--h:' + m.h + '"><span aria-hidden="true">' + m.icon + "</span>" + escHtml(item.c) + "</span>" +
+      '<div class="featured-top"><span class="tag" style="--h:' + m.h + '"><span aria-hidden="true">' + m.icon + "</span>" + catLabel(item.c) + "</span>" +
       (item.r ? '<span class="rabbi"><span class="rabbi-av" aria-hidden="true">' + rabbiInitial(item.r) + "</span>" + escHtml(item.r) + "</span>" : "") + "</div>" +
       '<p class="featured-q">' + richText(item.q) + "</p>" +
       '<p class="featured-a">' + richText(item.a) + "</p>";
